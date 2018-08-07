@@ -43,7 +43,7 @@ public class HomeDialogFragment extends DialogFragment {
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View v = inflater.inflate(R.layout.fragment_detail, null);
+        View v = inflater.inflate(R.layout.fragment_dialog, null);
         ingredients = v.findViewById(R.id.detail_ingre);
         steps = v.findViewById(R.id.detail_steps);
         name = v.findViewById(R.id.detail_name);

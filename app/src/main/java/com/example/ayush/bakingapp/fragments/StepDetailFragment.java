@@ -110,6 +110,7 @@ public class StepDetailFragment extends Fragment {
 
         if(stepId == (recipe.getStepsSize()-1)){
             next.setEnabled(false);
+            next.setVisibility(View.GONE);
         }else {
             next.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -120,6 +121,7 @@ public class StepDetailFragment extends Fragment {
         }
         if(stepId==0){
             prev.setEnabled(false);
+            prev.setVisibility(View.GONE);
         }else{
         prev.setOnClickListener(new View.OnClickListener() {
             @Override
