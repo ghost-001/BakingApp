@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical"
+    tools:context=".activity.MainActivity">
+
+    <include
+        android:id="@+id/main_appBar"
+        layout="@layout/app_bar_main" />
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/main_appBar"
+        android:layout_margin="5dp"
+        android:backgroundTint="@color/colorAccent"
+        android:padding="20dp"
+        app:cardCornerRadius="10dp">
+
+    <GridView
+        android:id="@+id/main_grid_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/main_appBar"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:clipToPadding="false"
+        android:horizontalSpacing="10dp"
+        android:verticalSpacing="10dp" />
+    </android.support.v7.widget.CardView>
+</RelativeLayout>
