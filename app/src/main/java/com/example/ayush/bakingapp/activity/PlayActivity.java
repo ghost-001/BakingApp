@@ -83,7 +83,7 @@ public class PlayActivity extends AppCompatActivity implements StepDetailFragmen
     }
 
     @Override
-    public void onButtonClick(Integer val) {
+    public void onButtonClick(Integer val,Integer id) {
         switch (val){
             case 0:
                 stepId--;

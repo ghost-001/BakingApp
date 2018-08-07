@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/darker_gray"
     android:id="@+id/constraint"
-    tools:context=".activity.DetailRecipeActivity">
+    tools:context=".activity.IngredientsActivity">
     <FrameLayout
         android:id="@+id/detail_recipe_frame"
         android:layout_width="match_parent"

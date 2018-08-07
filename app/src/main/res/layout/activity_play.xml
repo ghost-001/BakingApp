@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
     android:id="@+id/constraint"
-    tools:context=".activity.DetailRecipeActivity">
+    tools:context=".activity.StepActivity">
     <FrameLayout
         android:id="@+id/play_activity_frame"
         android:layout_width="match_parent"

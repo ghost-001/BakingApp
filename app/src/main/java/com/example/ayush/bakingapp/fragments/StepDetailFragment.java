@@ -114,7 +114,7 @@ public class StepDetailFragment extends Fragment {
             next.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    buttonClick.onButtonClick(1);
+                    buttonClick.onButtonClick(1,stepId);
                 }
             });
         }
@@ -124,7 +124,7 @@ public class StepDetailFragment extends Fragment {
         prev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                buttonClick.onButtonClick(0);
+                buttonClick.onButtonClick(0,stepId);
             }
         });}
         return root;
@@ -154,16 +154,13 @@ public class StepDetailFragment extends Fragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-      //  playbackPosition = player.getCurrentPosition();
-        //currentWindow = player.getCurrentWindowIndex();
-        //playeWhenReady = player.getPlayWhenReady();
-        outState.putInt("currentWindow",player.getCurrentWindowIndex());
-        outState.putLong("playbackPosition",player.getCurrentPosition());
+        outState.putInt("currentWindow",currentWindow);
+        outState.putLong("playbackPosition",playbackPosition);
         outState.putString("playVideoURL",videoUrl);
         Log.i("PLAYP Fragment","VALUES SAVED");
-        Log.i("PLAYP Fragment window","VALUES SAVED" + player.getCurrentWindowIndex());
-        Log.i("PLAYP Fragment position","VALUES SAVED" + player.getCurrentPosition());
-        //releasePlayer();
+        Log.i("PLAYP Fragment window","VALUES SAVED" + currentWindow);
+        Log.i("PLAYP Fragment position","VALUES SAVED" + playbackPosition);
+
     }
 
     public void initialisePlayer() {
@@ -185,7 +182,7 @@ public class StepDetailFragment extends Fragment {
 
 
         player.prepare(mediaSource,false,false);
-        // Uri uri = Uri.parse(getString(R.string.media_url_mp3));
+
 
 
     }
@@ -231,7 +228,7 @@ public class StepDetailFragment extends Fragment {
             buttonClick = (OnButtonClick) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement OnButtonClick");
         }
 
     }
@@ -239,14 +236,14 @@ public class StepDetailFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        //releasePlayer();
+        releasePlayer();
         Log.i("PLAYP", "ONPAUSE");
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        //releasePlayer();
+        releasePlayer();
         Log.i("PLAYP", "ONSTOP");
     }
 
@@ -294,6 +291,6 @@ public class StepDetailFragment extends Fragment {
 
     public interface OnButtonClick {
         // TODO: Update argument type and name
-        void onButtonClick(Integer val);
+        void onButtonClick(Integer val, Integer stepId);
     }
 }

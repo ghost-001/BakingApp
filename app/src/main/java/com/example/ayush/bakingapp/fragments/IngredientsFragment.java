@@ -34,7 +34,6 @@ public class IngredientsFragment extends Fragment {
     Constants constants;
     private Recipe recipe;
     private Integer value;
-    private OnFragmentInteractionListener mListener;
     private IngredientsAdapter adapter;
     public IngredientsFragment() {
 
@@ -89,35 +88,13 @@ public class IngredientsFragment extends Fragment {
     }
 
 
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-       /* if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }*/
-    }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
+
 
     public void setRecipe(Recipe recipe) {
         this.recipe = recipe;
     }
 
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
+
 }
