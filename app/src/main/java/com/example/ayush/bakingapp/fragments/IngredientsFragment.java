@@ -1,6 +1,7 @@
 package com.example.ayush.bakingapp.fragments;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,15 +14,25 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ayush.bakingapp.R;
 import com.example.ayush.bakingapp.adapter.IngredientsAdapter;
 import com.example.ayush.bakingapp.constants.Constants;
+import com.example.ayush.bakingapp.utils.Ingredient;
 import com.example.ayush.bakingapp.utils.Recipe;
+import com.example.ayush.bakingapp.utils.SaveIngredients;
+import com.example.ayush.bakingapp.widget.IngredientsWidgetService;
+import com.google.gson.Gson;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class IngredientsFragment extends Fragment {
 
@@ -29,12 +40,17 @@ public class IngredientsFragment extends Fragment {
     Toolbar mToolbar;
     @BindView(R.id.ingre_recycler)
     RecyclerView recyclerView;
-    @BindView(R.id.ingr_text_title)
+    @BindView(R.id.ingre_text_title)
     TextView title_tv;
-    Constants constants;
+    @BindView(R.id.ingre_button)
+    Button mAdd;
+
+
     private Recipe recipe;
     private Integer value;
     private IngredientsAdapter adapter;
+    private SharedPreferences mSharedPreference;
+    private Gson gson = new Gson();
     public IngredientsFragment() {
 
     }
@@ -54,7 +70,7 @@ public class IngredientsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        Log.i("FUCK", recipe.getName());
+
         adapter = new IngredientsAdapter(getContext(), recipe);
 
         final View root = inflater.inflate(R.layout.fragment_ingredients, container, false);
@@ -67,7 +83,19 @@ public class IngredientsFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
 
-        title_tv.setText("Ingredients");
+        title_tv.setText(Constants.INGREDIENTS);
+
+
+
+        //SharedPreferences.Editor editor = this.getActivity().getSharedPreferences("Recipes",MODE_PRIVATE);
+        mAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SaveIngredients.saveRecipe(getContext(),recipe);
+                Toast.makeText(getContext(),"Added to Widget",Toast.LENGTH_SHORT).show();
+                IngredientsWidgetService.updateTheWidgets(getContext(),recipe);
+            }
+        });
       /*  final Activity activity = getActivity();
         final View content = activity.findViewById(android.R.id.content).getRootView();
         if (content.getWidth() > 0) {

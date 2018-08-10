@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.ayush.bakingapp.R;
+import com.example.ayush.bakingapp.constants.Constants;
 import com.example.ayush.bakingapp.fragments.IngredientsFragment;
 import com.example.ayush.bakingapp.utils.Recipe;
 
@@ -24,9 +25,9 @@ public class IngredientsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_ingredients);
         Intent intent = getIntent();
 
-        recipeNum = intent.getIntExtra("value", 0);
-        category = intent.getStringExtra("category");
-        recipeList = intent.getParcelableArrayListExtra("RecipeList");
+        recipeNum = intent.getIntExtra(Constants.VALUE, 0);
+        category = intent.getStringExtra(Constants.CATEGORY);
+        recipeList = intent.getParcelableArrayListExtra(Constants.RECIPELIST);
         recipeSingle = recipeList.get(recipeNum);
         initFragment();
     }

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.ayush.bakingapp.R;
+import com.example.ayush.bakingapp.constants.Constants;
 import com.example.ayush.bakingapp.utils.Ingredient;
 import com.example.ayush.bakingapp.utils.Recipe;
 
@@ -38,7 +39,12 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
     @Override
     public void onBindViewHolder(@NonNull IngredientsAdapter.IngredientsViewHolder holder, int position) {
         Ingredient ingre = ingredient.get(position);
-        holder.ingre_tv.setText(position + 1 + ".) " + " " + ingre.getQuantity() + " " + ingre.getMeasure() + " " + ingre.getIngredient());
+        StringBuilder s = new StringBuilder().append(position+1).append(Constants.BRACKET).append(" ")
+                .append(ingre.getQuantity()).append(" ")
+                .append(ingre.getMeasure()).append(" ")
+                .append(ingre.getIngredient());
+        holder.ingre_tv.setText(s);
+
     }
 
     @Override
@@ -50,7 +56,7 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
         @BindView(R.id.ingredients_tv)
         TextView ingre_tv;
 
-        public IngredientsViewHolder(View itemView) {
+        private IngredientsViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
