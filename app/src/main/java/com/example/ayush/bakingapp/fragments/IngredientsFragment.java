@@ -1,8 +1,6 @@
 package com.example.ayush.bakingapp.fragments;
 
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +8,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,19 +17,14 @@ import android.widget.Toast;
 
 import com.example.ayush.bakingapp.R;
 import com.example.ayush.bakingapp.adapter.IngredientsAdapter;
-import com.example.ayush.bakingapp.constants.Constants;
-import com.example.ayush.bakingapp.utils.Ingredient;
+import com.example.ayush.bakingapp.AppConstants.AppConstants;
 import com.example.ayush.bakingapp.utils.Recipe;
 import com.example.ayush.bakingapp.utils.SaveIngredients;
 import com.example.ayush.bakingapp.widget.IngredientsWidgetService;
 import com.google.gson.Gson;
 
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static android.content.Context.MODE_PRIVATE;
 
 public class IngredientsFragment extends Fragment {
 
@@ -83,7 +75,7 @@ public class IngredientsFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
 
-        title_tv.setText(Constants.INGREDIENTS);
+        title_tv.setText(AppConstants.INGREDIENTS);
 
 
 
@@ -92,7 +84,7 @@ public class IngredientsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 SaveIngredients.saveRecipe(getContext(),recipe);
-                Toast.makeText(getContext(),"Added to Widget",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),AppConstants.ADDED_WIDGET,Toast.LENGTH_SHORT).show();
                 IngredientsWidgetService.updateTheWidgets(getContext(),recipe);
             }
         });

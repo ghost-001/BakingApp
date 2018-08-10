@@ -8,8 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.ayush.bakingapp.AppConstants.AppConstants;
 import com.example.ayush.bakingapp.R;
-import com.example.ayush.bakingapp.constants.Constants;
 import com.example.ayush.bakingapp.utils.Ingredient;
 import com.example.ayush.bakingapp.utils.Recipe;
 
@@ -39,7 +39,7 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
     @Override
     public void onBindViewHolder(@NonNull IngredientsAdapter.IngredientsViewHolder holder, int position) {
         Ingredient ingre = ingredient.get(position);
-        StringBuilder s = new StringBuilder().append(position+1).append(Constants.BRACKET).append(" ")
+        StringBuilder s = new StringBuilder().append(position + 1).append(AppConstants.BRACKET).append(" ")
                 .append(ingre.getQuantity()).append(" ")
                 .append(ingre.getMeasure()).append(" ")
                 .append(ingre.getIngredient());

@@ -37,7 +37,6 @@
                     android:id="@+id/home_grid_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="RECIPE"
                     android:textColor="@android:color/white"
                     android:textSize="24sp" />
 
@@ -46,7 +45,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/home_grid_name"
-                    android:text="Steps"
+                    android:text="@string/steps"
                     android:textColor="@android:color/white"
                     android:textSize="16sp" />
 
@@ -65,7 +64,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/step"
-                    android:text="Ingredients"
+                    android:text="@string/ingredients"
                     android:textColor="@android:color/white"
                     android:textSize="16sp" />
                 <TextView
@@ -83,7 +82,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/ingre"
-                    android:text="Servings"
+                    android:text="@string/servings"
                     android:textColor="@android:color/white"
                     android:textSize="16sp" />
                 <TextView

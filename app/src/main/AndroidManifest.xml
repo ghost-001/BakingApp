@@ -20,7 +20,6 @@
         </activity>
         <activity android:name=".activity.StepActivity" />
         <activity android:name=".activity.PlayActivity" />
-        <activity android:name=".activity.IngredientsActivity" />
 
         <receiver android:name=".widget.RecipeWidgetProvider">
             <intent-filter>

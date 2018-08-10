@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ayush.bakingapp.AppConstants.AppConstants;
 import com.example.ayush.bakingapp.R;
 import com.example.ayush.bakingapp.utils.Recipe;
 import com.example.ayush.bakingapp.utils.Step;
@@ -137,17 +138,15 @@ public class StepDetailFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if(savedInstanceState != null){
-            currentWindow = savedInstanceState.getInt("currentWindow");
-            playbackPosition = savedInstanceState.getLong("playbackPosition");
-            videoUrl = savedInstanceState.getString("playVideoURL");
-            Log.i("PLAYP Fragment","Got VALUES");
-            Log.i("PLAYP Fragment window","Got VALUES" + currentWindow);
-            Log.i("PLAYP Fragment position","Got VALUES" + playbackPosition);
+            currentWindow = savedInstanceState.getInt(AppConstants.CURRENT_WINDOW);
+            playbackPosition = savedInstanceState.getLong(AppConstants.PLAYBACK_POSITION);
+            videoUrl = savedInstanceState.getString(AppConstants.VIDEO_URL);
+
         }else{
             currentWindow = 0;
             playbackPosition = 0L;
             videoUrl = step.get(stepId).getVideoURL();
-            Log.i("PLAYP Fragment","Initialised VALUES");
+
         }
 
 
@@ -156,17 +155,15 @@ public class StepDetailFragment extends Fragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("currentWindow",currentWindow);
-        outState.putLong("playbackPosition",playbackPosition);
-        outState.putString("playVideoURL",videoUrl);
-        Log.i("PLAYP Fragment","VALUES SAVED");
-        Log.i("PLAYP Fragment window","VALUES SAVED" + currentWindow);
-        Log.i("PLAYP Fragment position","VALUES SAVED" + playbackPosition);
+        outState.putInt(AppConstants.CURRENT_WINDOW,currentWindow);
+        outState.putLong(AppConstants.PLAYBACK_POSITION,playbackPosition);
+        outState.putString(AppConstants.VIDEO_URL,videoUrl);
+
 
     }
 
     public void initialisePlayer() {
-        Log.i("PLAYP FRAGMENT","Player INITIALISED");
+
 
             player = ExoPlayerFactory.newSimpleInstance(
                     new DefaultRenderersFactory(getContext()),
@@ -179,10 +176,6 @@ public class StepDetailFragment extends Fragment {
         Uri uri = Uri.parse(videoUrl);
         MediaSource mediaSource = buildMediaSource(uri);
         player.seekTo(currentWindow, playbackPosition);
-        Log.i("PLAYP Fragment window","Got VALUES" + currentWindow);
-        Log.i("PLAYP Fragment position","Got VALUES" + playbackPosition);
-
-
         player.prepare(mediaSource,false,false);
 
 
@@ -192,7 +185,7 @@ public class StepDetailFragment extends Fragment {
   
     private MediaSource buildMediaSource(Uri uri) {
         return new ExtractorMediaSource.Factory(
-                new DefaultHttpDataSourceFactory("exoplayer-codelab")).
+                new DefaultHttpDataSourceFactory(AppConstants.USER_AGENT)).
                 createMediaSource(uri);
     }
 
@@ -230,7 +223,7 @@ public class StepDetailFragment extends Fragment {
             buttonClick = (OnButtonClick) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnButtonClick");
+                    + AppConstants.ERROR_LISTNER);
         }
 
     }
@@ -239,21 +232,19 @@ public class StepDetailFragment extends Fragment {
     public void onPause() {
         super.onPause();
         releasePlayer();
-        Log.i("PLAYP", "ONPAUSE");
+
     }
 
     @Override
     public void onStop() {
         super.onStop();
         releasePlayer();
-        Log.i("PLAYP", "ONSTOP");
+
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-       // releasePlayer();
-        Log.i("PLAYP", "ONDETACH");
         buttonClick = null;
     }
 
@@ -261,7 +252,7 @@ public class StepDetailFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
                     releasePlayer();
-            Log.i("PLAYP","RELEASED DESTROYVIEW");
+
 
     }
 
@@ -292,7 +283,7 @@ public class StepDetailFragment extends Fragment {
     }
 
     public interface OnButtonClick {
-        // TODO: Update argument type and name
+
         void onButtonClick(Integer val, Integer stepId);
     }
 }

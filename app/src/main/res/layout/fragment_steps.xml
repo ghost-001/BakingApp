@@ -19,7 +19,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="20dp"
-        android:text="Steps"
+        android:text="@string/steps"
         android:textColor="@android:color/white"
         android:textStyle="bold"
         android:textSize="24sp" />

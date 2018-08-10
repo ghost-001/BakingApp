@@ -1,7 +1,6 @@
 package com.example.ayush.bakingapp.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.ayush.bakingapp.AppConstants.AppConstants;
 import com.example.ayush.bakingapp.R;
 import com.example.ayush.bakingapp.callbacks.grid_Callback;
-import com.example.ayush.bakingapp.constants.Constants;
 import com.example.ayush.bakingapp.utils.Recipe;
 
 import java.util.ArrayList;
@@ -22,7 +21,7 @@ public class HomeAdapter extends BaseAdapter {
     Context context;
     List<String> name;
     ArrayList<Recipe> recipe = new ArrayList<>();
-    Constants constants;
+    AppConstants appConstants;
     private grid_Callback gridCallback;
 
     public HomeAdapter(Context context, ArrayList<Recipe> r) {
@@ -30,7 +29,7 @@ public class HomeAdapter extends BaseAdapter {
         this.recipe = r;
         gridCallback = (grid_Callback) context;
         inflater = LayoutInflater.from(context);
-        Log.i("Adapter",""+r.size());
+
     }
 
     @Override
@@ -59,7 +58,7 @@ public class HomeAdapter extends BaseAdapter {
             TextView ingreNum = view.findViewById(R.id.home_grid_ingre);
             TextView servingNum = view.findViewById(R.id.home_grid_serving);
 
-            image.setImageResource(constants.images[i]);
+            image.setImageResource(appConstants.images[i]);
             recipeName.setText(r.getName());
             stepNum.setText(String.valueOf(r.getStepsSize()));
             ingreNum.setText(String.valueOf(r.getIngredientsSize()));

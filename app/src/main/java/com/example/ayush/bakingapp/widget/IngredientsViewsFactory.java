@@ -1,17 +1,13 @@
 package com.example.ayush.bakingapp.widget;
 
 import android.content.Context;
-import android.content.Intent;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import com.example.ayush.bakingapp.R;
-import com.example.ayush.bakingapp.constants.Constants;
-import com.example.ayush.bakingapp.utils.Ingredient;
+import com.example.ayush.bakingapp.AppConstants.AppConstants;
 import com.example.ayush.bakingapp.utils.Recipe;
 import com.example.ayush.bakingapp.utils.SaveIngredients;
-
-import java.util.ArrayList;
 
 public class IngredientsViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
@@ -44,7 +40,7 @@ public class IngredientsViewsFactory implements RemoteViewsService.RemoteViewsFa
     @Override
     public RemoteViews getViewAt(int i) {
         RemoteViews remoteViews = new RemoteViews(mContext.getPackageName(), R.layout.widget_single_ingedient);
-        StringBuilder s = new StringBuilder().append(i+1).append(Constants.BRACKET).append(" ")
+        StringBuilder s = new StringBuilder().append(i+1).append(AppConstants.BRACKET).append(" ")
                 .append(recipe.getIngredients().get(i).getIngredient());
         remoteViews.setTextViewText(R.id.widget_ingredient_tv,s);
         return remoteViews;

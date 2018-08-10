@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.ayush.bakingapp.AppConstants.AppConstants;
 import com.example.ayush.bakingapp.R;
 import com.example.ayush.bakingapp.callbacks.StepsCallback;
 import com.example.ayush.bakingapp.utils.Recipe;
@@ -41,7 +42,9 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepsViewHol
     @Override
     public void onBindViewHolder(@NonNull StepsViewHolder holder, final int position) {
         final Step step = steps.get(position);
-        holder.ingre_tv.setText(position + 1 + ".) " + step.getShortDescription());
+        StringBuilder s = new StringBuilder().append(position + 1).append(AppConstants.BRACKET)
+                .append(" ").append(step.getShortDescription());
+        holder.ingre_tv.setText(s);
         holder.ingre_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

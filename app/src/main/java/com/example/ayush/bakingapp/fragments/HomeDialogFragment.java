@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.ayush.bakingapp.AppConstants.AppConstants;
 import com.example.ayush.bakingapp.R;
 
 public class HomeDialogFragment extends DialogFragment {
@@ -51,14 +52,14 @@ public class HomeDialogFragment extends DialogFragment {
         ingredients.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mListener.onCategorySelected("Ingredients", recipeId);
+                mListener.onCategorySelected(AppConstants.INGREDIENTS, recipeId);
             }
         });
 
         steps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mListener.onCategorySelected("Steps", recipeId);
+                mListener.onCategorySelected(AppConstants.STEPS, recipeId);
             }
         });
         builder.setView(v);
@@ -69,8 +70,8 @@ public class HomeDialogFragment extends DialogFragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("value", recipeId);
-        outState.putString("name", recepeName);
+        outState.putInt(AppConstants.VALUE, recipeId);
+        outState.putString(AppConstants.NAME, recepeName);
     }
 
     @Override
@@ -80,7 +81,7 @@ public class HomeDialogFragment extends DialogFragment {
             mListener = (CategoryDialogListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
-                    + " must implement NoticeDialogListener");
+                    + AppConstants.ERROR_LISTNER);
         }
     }
 }

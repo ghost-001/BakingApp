@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.ayush.bakingapp.AppConstants.AppConstants;
 import com.example.ayush.bakingapp.R;
 import com.example.ayush.bakingapp.adapter.StepsAdapter;
 import com.example.ayush.bakingapp.utils.Recipe;
@@ -48,10 +49,10 @@ public class StepsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.i("FUCK", recipe.getName());
+
         adapter = new StepsAdapter(getContext(), recipe);
 
-       //  mListener.onStepsFragmentInteraction("XXX");
+
         View root = inflater.inflate(R.layout.fragment_steps, container, false);
         ButterKnife.bind(this, root);
         ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
@@ -61,7 +62,7 @@ public class StepsFragment extends Fragment {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-        title_tv.setText("Steps");
+        title_tv.setText(AppConstants.STEPS);
 
         return root;
     }
