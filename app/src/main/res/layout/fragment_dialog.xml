@@ -7,7 +7,7 @@
     android:layout_weight="10"
     android:background="@color/colorAccent"
     android:padding="5dp"
-    tools:context=".activity.StepActivity">
+    tools:context=".activity.DetailActivity">
 
     <TextView
         android:id="@+id/detail_name"

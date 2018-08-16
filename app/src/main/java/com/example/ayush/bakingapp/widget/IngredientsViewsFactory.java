@@ -5,7 +5,7 @@ import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import com.example.ayush.bakingapp.R;
-import com.example.ayush.bakingapp.AppConstants.AppConstants;
+import com.example.ayush.bakingapp.appConstants.AppConstants;
 import com.example.ayush.bakingapp.utils.Recipe;
 import com.example.ayush.bakingapp.utils.SaveIngredients;
 

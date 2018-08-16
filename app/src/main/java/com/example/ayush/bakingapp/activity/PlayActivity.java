@@ -1,11 +1,14 @@
 package com.example.ayush.bakingapp.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
-import com.example.ayush.bakingapp.AppConstants.AppConstants;
+import com.example.ayush.bakingapp.utils.NetworkState;
+import com.example.ayush.bakingapp.appConstants.AppConstants;
 import com.example.ayush.bakingapp.R;
 import com.example.ayush.bakingapp.fragments.StepDetailFragment;
 import com.example.ayush.bakingapp.utils.Recipe;
@@ -26,9 +29,16 @@ public class PlayActivity extends AppCompatActivity implements StepDetailFragmen
         Intent intent = getIntent();
         stepId = intent.getIntExtra(AppConstants.STEP_ID, 0);
         recipe = intent.getParcelableExtra(AppConstants.RECIPE);
-        if (savedInstanceState == null) {
-            initFragment();
+        NetworkState networkState = new NetworkState(this);
+        if(!networkState.checkInternet()){
+            showNoInternet();
         }
+        else {
+            if (savedInstanceState == null) {
+                initFragment();
+            }
+        }
+
 
 
     }
@@ -39,6 +49,9 @@ public class PlayActivity extends AppCompatActivity implements StepDetailFragmen
         if (savedInstanceState != null) {
             stepDetailFragment = (StepDetailFragment) getSupportFragmentManager()
                     .getFragment(savedInstanceState, AppConstants.STEP_DETAIL_FRAGMENT_TAG);
+            stepId = savedInstanceState.getInt(AppConstants.STEP_ID);
+
+
         } else {
             initFragment();
         }
@@ -57,13 +70,14 @@ public class PlayActivity extends AppCompatActivity implements StepDetailFragmen
     @Override
     protected void onStart() {
         super.onStart();
+
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        getSupportFragmentManager().putFragment(outState, "myPlayFragment", stepDetailFragment);
-
+        getSupportFragmentManager().putFragment(outState, AppConstants.PLAYFRAGMENT_TAG, stepDetailFragment);
+        outState.putInt(AppConstants.STEP_ID,stepId);
     }
 
     @Override
@@ -78,5 +92,16 @@ public class PlayActivity extends AppCompatActivity implements StepDetailFragmen
                 initFragment();
                 break;
         }
+    }
+    public void showNoInternet() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(PlayActivity.this);
+        builder.setMessage(R.string.dialog_message)
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        finish();
+                    }
+                });
+        builder.create();
+        builder.show();
     }
 }

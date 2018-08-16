@@ -1,4 +1,4 @@
-package com.example.ayush.bakingapp.AppConstants;
+package com.example.ayush.bakingapp.appConstants;
 
 import com.example.ayush.bakingapp.R;
 
@@ -16,6 +16,7 @@ public final class AppConstants {
     public static final String RECIPELIST = "recipeList";
     public static  final String BRACKET = ".)";
     public static final String HOMEDETAILFRAGMENT_TAG = "HomeDetailFragment";
+    public static  final String PLAYFRAGMENT_TAG = "myPlayFragment";
 
     public static final String STEP_ID = "stepId";
     public static final String RECIPE = "recipe";

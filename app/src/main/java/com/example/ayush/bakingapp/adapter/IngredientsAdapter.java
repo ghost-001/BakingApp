@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.ayush.bakingapp.AppConstants.AppConstants;
+import com.example.ayush.bakingapp.appConstants.AppConstants;
 import com.example.ayush.bakingapp.R;
 import com.example.ayush.bakingapp.utils.Ingredient;
 import com.example.ayush.bakingapp.utils.Recipe;

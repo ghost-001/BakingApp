@@ -12,12 +12,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ayush.bakingapp.appConstants.AppConstants;
 import com.example.ayush.bakingapp.R;
 import com.example.ayush.bakingapp.adapter.IngredientsAdapter;
-import com.example.ayush.bakingapp.AppConstants.AppConstants;
 import com.example.ayush.bakingapp.utils.Recipe;
 import com.example.ayush.bakingapp.utils.SaveIngredients;
 import com.example.ayush.bakingapp.widget.IngredientsWidgetService;
@@ -35,14 +36,13 @@ public class IngredientsFragment extends Fragment {
     @BindView(R.id.ingre_text_title)
     TextView title_tv;
     @BindView(R.id.ingre_button)
-    Button mAdd;
+    ImageButton mAdd;
 
 
     private Recipe recipe;
     private Integer value;
     private IngredientsAdapter adapter;
-    private SharedPreferences mSharedPreference;
-    private Gson gson = new Gson();
+
     public IngredientsFragment() {
 
     }
@@ -76,40 +76,17 @@ public class IngredientsFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
         title_tv.setText(AppConstants.INGREDIENTS);
-
-
-
-        //SharedPreferences.Editor editor = this.getActivity().getSharedPreferences("Recipes",MODE_PRIVATE);
         mAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SaveIngredients.saveRecipe(getContext(),recipe);
-                Toast.makeText(getContext(),AppConstants.ADDED_WIDGET,Toast.LENGTH_SHORT).show();
-                IngredientsWidgetService.updateTheWidgets(getContext(),recipe);
+                SaveIngredients.saveRecipe(getContext(), recipe);
+                Toast.makeText(getContext(), AppConstants.ADDED_WIDGET, Toast.LENGTH_SHORT).show();
+                IngredientsWidgetService.updateTheWidgets(getContext(), recipe);
             }
         });
-      /*  final Activity activity = getActivity();
-        final View content = activity.findViewById(android.R.id.content).getRootView();
-        if (content.getWidth() > 0) {
-            Bitmap image = BitmapFactory.decodeResource(getResources(), constants.images[value]);
-            root.setBackgroundDrawable(new BitmapDrawable(activity.getResources(), image));
-        } else {
-            content.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                @Override
-                public void onGlobalLayout() {
-                    Bitmap image = BitmapFactory.decodeResource(getResources(), constants.images[value]);
-                    // Bitmap image = BlurBuilder.blur(content,getContext());
-                    root.setBackgroundDrawable(new BitmapDrawable(activity.getResources(), image));
-                }
-            });
-        }*/
-        //root.getBackground().setAlpha(250);
+
         return root;
     }
-
-
-
-
 
 
     public void setRecipe(Recipe recipe) {

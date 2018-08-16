@@ -24,7 +24,7 @@
                 android:layout_height="200dp"
                 android:elevation="20dp"
                 android:background="@color/colorPrimary"
-                android:src="@drawable/food" />
+                 />
 
             <RelativeLayout
                 android:layout_width="match_parent"

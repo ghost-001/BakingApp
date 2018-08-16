@@ -1,5 +1,5 @@
 package com.example.ayush.bakingapp.callbacks;
 
-public interface grid_Callback {
+public interface GridCallback {
     void openRecipe(int value);
 }

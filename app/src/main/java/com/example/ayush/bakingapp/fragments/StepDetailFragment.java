@@ -1,30 +1,30 @@
 package com.example.ayush.bakingapp.fragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.ayush.bakingapp.AppConstants.AppConstants;
+import com.example.ayush.bakingapp.utils.NetworkState;
 import com.example.ayush.bakingapp.R;
+import com.example.ayush.bakingapp.appConstants.AppConstants;
 import com.example.ayush.bakingapp.utils.Recipe;
 import com.example.ayush.bakingapp.utils.Step;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlayerFactory;
-import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
@@ -38,6 +38,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static android.view.View.GONE;
+
 public class StepDetailFragment extends Fragment {
 
 
@@ -45,6 +47,8 @@ public class StepDetailFragment extends Fragment {
     Toolbar mToolbar;
     @BindView(R.id.playerView)
     PlayerView playerView;
+    @BindView(R.id.play_no_video)
+    TextView noVideo;
     @BindView(R.id.step_short_des)
     TextView shortDesc;
     @BindView(R.id.step_long_des)
@@ -57,14 +61,13 @@ public class StepDetailFragment extends Fragment {
     Button prev;
 
     private List<Step> step;
-    private Integer stepId;
+    public Integer stepId;
     private String videoUrl;
     private Recipe recipe;
     private SimpleExoPlayer player;
     private Boolean playeWhenReady = true;
     private Integer currentWindow;
     private Long playbackPosition;
-    private ComponentListener componentListener;
     private OnButtonClick buttonClick;
 
     public StepDetailFragment() {
@@ -87,6 +90,7 @@ public class StepDetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setRetainInstance(true);
 
     }
@@ -97,39 +101,40 @@ public class StepDetailFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_step_detail, container, false);
         ButterKnife.bind(this, root);
-
         ((AppCompatActivity) getActivity()).setSupportActionBar(mToolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(recipe.getName());
 
-        if(recipe!=null) {
-            if (step != null) {
-                shortDesc.setText(step.get(stepId).getShortDescription());
-                longDesc.setText(step.get(stepId).getDescription());
+        NetworkState networkState = new NetworkState(getContext());
+        if (!networkState.checkInternet()) {
+            showNoInternet();
+        } else {
+            shortDesc.setText(recipe.getSteps().get(stepId).getShortDescription());
+            longDesc.setText(recipe.getSteps().get(stepId).getDescription());
+
+            if (stepId == (recipe.getStepsSize() - 1)) {
+                next.setEnabled(false);
+                next.setVisibility(View.GONE);
+            } else {
+                next.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        buttonClick.onButtonClick(1, stepId);
+                    }
+                });
             }
-            componentListener = new ComponentListener();
+            if (stepId == 0) {
+                prev.setEnabled(false);
+                prev.setVisibility(View.GONE);
+            } else {
+                prev.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        buttonClick.onButtonClick(0, stepId);
+                    }
+                });
+            }
         }
 
-        if(stepId == (recipe.getStepsSize()-1)){
-            next.setEnabled(false);
-            next.setVisibility(View.GONE);
-        }else {
-            next.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    buttonClick.onButtonClick(1,stepId);
-                }
-            });
-        }
-        if(stepId==0){
-            prev.setEnabled(false);
-            prev.setVisibility(View.GONE);
-        }else{
-        prev.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                buttonClick.onButtonClick(0,stepId);
-            }
-        });}
         return root;
 
     }
@@ -137,15 +142,25 @@ public class StepDetailFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if(savedInstanceState != null){
+        if (savedInstanceState != null) {
             currentWindow = savedInstanceState.getInt(AppConstants.CURRENT_WINDOW);
             playbackPosition = savedInstanceState.getLong(AppConstants.PLAYBACK_POSITION);
             videoUrl = savedInstanceState.getString(AppConstants.VIDEO_URL);
-
-        }else{
+            if (videoUrl == null) {
+                noVideo.setVisibility(View.VISIBLE);
+            } else {
+                playerView.setVisibility(View.VISIBLE);
+            }
+        } else {
             currentWindow = 0;
             playbackPosition = 0L;
-            videoUrl = step.get(stepId).getVideoURL();
+            if (!step.get(stepId).getVideoURL().isEmpty()) {
+                videoUrl = recipe.getSteps().get(stepId).getVideoURL();
+                playerView.setVisibility(View.VISIBLE);
+            } else {
+                videoUrl = null;
+                noVideo.setVisibility(View.VISIBLE);
+            }
 
         }
 
@@ -155,34 +170,31 @@ public class StepDetailFragment extends Fragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt(AppConstants.CURRENT_WINDOW,currentWindow);
-        outState.putLong(AppConstants.PLAYBACK_POSITION,playbackPosition);
-        outState.putString(AppConstants.VIDEO_URL,videoUrl);
-
-
+        outState.putInt(AppConstants.CURRENT_WINDOW, currentWindow);
+        outState.putLong(AppConstants.PLAYBACK_POSITION, playbackPosition);
+        outState.putString(AppConstants.VIDEO_URL, videoUrl);
     }
 
     public void initialisePlayer() {
 
-
+        if (videoUrl != null) {
             player = ExoPlayerFactory.newSimpleInstance(
                     new DefaultRenderersFactory(getContext()),
                     new DefaultTrackSelector(), new DefaultLoadControl());
             playerView.setPlayer(player);
-            player.addListener(componentListener);
             player.setPlayWhenReady(playeWhenReady);
 
 
-        Uri uri = Uri.parse(videoUrl);
-        MediaSource mediaSource = buildMediaSource(uri);
-        player.seekTo(currentWindow, playbackPosition);
-        player.prepare(mediaSource,false,false);
+            Uri uri = Uri.parse(videoUrl);
+            MediaSource mediaSource = buildMediaSource(uri);
+            player.seekTo(currentWindow, playbackPosition);
+            player.prepare(mediaSource, false, false);
 
-
+        }
 
     }
 
-  
+
     private MediaSource buildMediaSource(Uri uri) {
         return new ExtractorMediaSource.Factory(
                 new DefaultHttpDataSourceFactory(AppConstants.USER_AGENT)).
@@ -251,39 +263,26 @@ public class StepDetailFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-                    releasePlayer();
+        releasePlayer();
 
 
-    }
-
-    private class ComponentListener extends Player.DefaultEventListener {
-        @Override
-        public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-            String stateString;
-            switch (playbackState) {
-                case Player.STATE_IDLE:
-                    stateString = "ExoPlayer.STATE_IDLE      -";
-                    break;
-                case Player.STATE_BUFFERING:
-                    stateString = "ExoPlayer.STATE_BUFFERING -";
-                    break;
-                case Player.STATE_READY:
-                    stateString = "ExoPlayer.STATE_READY     -";
-                    break;
-                case Player.STATE_ENDED:
-                    stateString = "ExoPlayer.STATE_ENDED     -";
-                    break;
-                default:
-                    stateString = "UNKNOWN_STATE             -";
-                    break;
-            }
-            Log.d("PLAYP", "changed state to " + stateString
-                    + " playWhenReady: " + playWhenReady);
-        }
     }
 
     public interface OnButtonClick {
 
-        void onButtonClick(Integer val, Integer stepId);
+        void onButtonClick(Integer val, Integer x);
+    }
+
+    public void showNoInternet() {
+        progressBar.setVisibility(GONE);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this.getActivity());
+        builder.setMessage(R.string.dialog_message)
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        getActivity().onBackPressed();
+                    }
+                });
+        builder.create();
+        builder.show();
     }
 }

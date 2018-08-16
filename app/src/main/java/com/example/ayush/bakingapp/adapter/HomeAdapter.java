@@ -8,9 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.ayush.bakingapp.AppConstants.AppConstants;
+import com.example.ayush.bakingapp.appConstants.AppConstants;
 import com.example.ayush.bakingapp.R;
-import com.example.ayush.bakingapp.callbacks.grid_Callback;
+import com.example.ayush.bakingapp.callbacks.GridCallback;
 import com.example.ayush.bakingapp.utils.Recipe;
 
 import java.util.ArrayList;
@@ -22,12 +22,12 @@ public class HomeAdapter extends BaseAdapter {
     List<String> name;
     ArrayList<Recipe> recipe = new ArrayList<>();
     AppConstants appConstants;
-    private grid_Callback gridCallback;
+    private GridCallback gridCallback;
 
     public HomeAdapter(Context context, ArrayList<Recipe> r) {
         this.context = context;
         this.recipe = r;
-        gridCallback = (grid_Callback) context;
+        gridCallback = (GridCallback) context;
         inflater = LayoutInflater.from(context);
 
     }

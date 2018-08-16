@@ -1,11 +1,14 @@
 package com.example.ayush.bakingapp.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
-import com.example.ayush.bakingapp.AppConstants.AppConstants;
+import com.example.ayush.bakingapp.utils.NetworkState;
+import com.example.ayush.bakingapp.appConstants.AppConstants;
 import com.example.ayush.bakingapp.R;
 import com.example.ayush.bakingapp.callbacks.StepsCallback;
 import com.example.ayush.bakingapp.fragments.IngredientsFragment;
@@ -15,7 +18,7 @@ import com.example.ayush.bakingapp.utils.Recipe;
 
 import java.util.ArrayList;
 
-public class StepActivity extends AppCompatActivity implements
+public class DetailActivity extends AppCompatActivity implements
         StepsCallback, StepDetailFragment.OnButtonClick {
 
     private Integer recipeNum;
@@ -43,7 +46,13 @@ public class StepActivity extends AppCompatActivity implements
         if (findViewById(R.id.item_detail_container) != null) {
             mTwoPane = true;
         }
-        initFragment();
+        NetworkState networkState = new NetworkState(this);
+        if(!networkState.checkInternet()){
+            showNoInternet();
+        }
+        else {
+            initFragment();
+        }
     }
 
     public void initFragment() {
@@ -113,5 +122,17 @@ public class StepActivity extends AppCompatActivity implements
         stepDetailFragment.setRecipe(recipeSingle);
         stepDetailFragment.setStepId(id);
         manager.beginTransaction().replace(R.id.item_detail_container, stepDetailFragment).commit();
+    }
+    public void showNoInternet() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(DetailActivity.this);
+        builder.setMessage(R.string.dialog_message)
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        finish();
+                    }
+                });
+        builder.create();
+        builder.show();
     }
 }

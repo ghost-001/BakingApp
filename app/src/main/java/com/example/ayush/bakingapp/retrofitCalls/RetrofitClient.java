@@ -1,6 +1,6 @@
 package com.example.ayush.bakingapp.retrofitCalls;
 
-import com.example.ayush.bakingapp.AppConstants.AppConstants;
+import com.example.ayush.bakingapp.appConstants.AppConstants;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
