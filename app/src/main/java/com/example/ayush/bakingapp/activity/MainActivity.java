@@ -12,17 +12,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.GridView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
-import com.example.ayush.bakingapp.utils.NetworkState;
-import com.example.ayush.bakingapp.utils.SimpleIdlingResource;
+import com.example.ayush.bakingapp.R;
 import com.example.ayush.bakingapp.adapter.HomeAdapter;
 import com.example.ayush.bakingapp.appConstants.AppConstants;
-import com.example.ayush.bakingapp.R;
 import com.example.ayush.bakingapp.callbacks.GridCallback;
 import com.example.ayush.bakingapp.fragments.HomeDialogFragment;
 import com.example.ayush.bakingapp.retrofitCalls.RetrofitService;
+import com.example.ayush.bakingapp.utils.NetworkState;
 import com.example.ayush.bakingapp.utils.Recipe;
+import com.example.ayush.bakingapp.utils.SimpleIdlingResource;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -96,7 +96,6 @@ return simpleIdlingResource;
 
     @Override
     public void onCategorySelected(String str, Integer value) {
-        Toast.makeText(this, str + value, Toast.LENGTH_SHORT).show();
         Intent intent;
         switch (str) {
             case AppConstants.INGREDIENTS:
